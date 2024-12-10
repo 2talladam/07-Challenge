@@ -1,10 +1,10 @@
 
-# Abc
+# 07-Challenge
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## Description
-ajradfjkl; adfjkler adfjklera
+To help users create a readME for their project
 
 ## Table of Contents
 - [Installation](#installation)
@@ -15,20 +15,22 @@ ajradfjkl; adfjkler adfjklera
 - [Questions](#questions)
 
 ## Installation
-Install by git pull
+npm install inquirer
 
 ## Usage
-Use to create a README
+node (filename)
 
 ## License
 This project is licensed under the MIT License.
 
 ## Contributing
-abjakle;r
+
 
 ## Tests
-adfjkl;ear
+
 
 ## Questions
-For questions, please contact me on GitHub at [2talladam](https://github.com/2talladam) or email me at [2talladam@gmail.com](mailto:2talladam@gmail.com).
+For questions, please contact me:
+- GitHub: [2talladam](https://github.com/2talladam)
+- Email: [2talladam@gmail.com](mailto:2talladam@gmail.com)
   

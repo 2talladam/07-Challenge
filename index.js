@@ -1,37 +1,37 @@
+import inquirer from 'inquirer';
+import fs from 'fs';
 
-const inquirer = require('inquirer');
-const fs = require('fs');
 
 const questions = [
   {
     type: 'input',
     name: 'title',
-    message: 'What is the title of your project?',
+    message: 'What is the title of your project? (e.g., My Awesome App)',
   },
   {
     type: 'input',
     name: 'description',
-    message: 'Provide a description of your project:',
+    message: 'Provide a description of your project: (e.g., A tool for managing tasks)',
   },
   {
     type: 'input',
     name: 'installation',
-    message: 'Provide installation instructions:',
+    message: 'Provide installation instructions: (e.g., npm install)',
   },
   {
     type: 'input',
     name: 'usage',
-    message: 'Provide usage information:',
+    message: 'Provide usage information: (e.g., npm start)',
   },
   {
     type: 'input',
     name: 'contributing',
-    message: 'Provide contribution guidelines:',
+    message: 'Provide contribution guidelines: (e.g., Fork, create branch, submit PR)',
   },
   {
     type: 'input',
     name: 'tests',
-    message: 'Provide test instructions:',
+    message: 'Provide test instructions: (e.g., npm test)',
   },
   {
     type: 'list',
@@ -42,20 +42,29 @@ const questions = [
   {
     type: 'input',
     name: 'github',
-    message: 'What is your GitHub username?',
+    message: 'What is your GitHub username? (e.g., johndoe)',
   },
   {
     type: 'input',
     name: 'email',
-    message: 'What is your email address?',
+    message: 'What is your email address? (e.g., johndoe@example.com)',
   },
 ];
 
+function sanitizeLicense(license) {
+  return license.replace(/ /g, '%20');
+}
+
 function generateREADME(answers) {
+  const licenseBadge =
+    answers.license !== 'None'
+      ? `![License](https://img.shields.io/badge/license-${sanitizeLicense(answers.license)}-blue)`
+      : '';
+
   return `
 # ${answers.title}
 
-![License](https://img.shields.io/badge/license-${answers.license}-blue)
+${licenseBadge}
 
 ## Description
 ${answers.description}
@@ -75,7 +84,7 @@ ${answers.installation}
 ${answers.usage}
 
 ## License
-This project is licensed under the ${answers.license} License.
+${answers.license !== 'None' ? `This project is licensed under the ${answers.license} License.` : 'No license applied.'}
 
 ## Contributing
 ${answers.contributing}
@@ -84,16 +93,20 @@ ${answers.contributing}
 ${answers.tests}
 
 ## Questions
-For questions, please contact me on GitHub at [${answers.github}](https://github.com/${answers.github}) or email me at [${answers.email}](mailto:${answers.email}).
+For questions, please contact me:
+- GitHub: [${answers.github}](https://github.com/${answers.github})
+- Email: [${answers.email}](mailto:${answers.email})
   `;
 }
 
 function writeToFile(data) {
-  fs.writeFileSync('README.md', data, (err) =>
-    err ? console.log(err) : console.log('Successfully created README.md!')
-  );
+  try {
+    fs.writeFileSync('README.md', data);
+    console.log('Successfully created README.md!');
+  } catch (err) {
+    console.error('Error writing to file:', err);
+  }
 }
-
 
 inquirer
   .prompt(questions)
@@ -102,5 +115,5 @@ inquirer
     writeToFile(readmeContent);
   })
   .catch((error) => {
-    console.log(error);
+    console.error('Error during prompt:', error);
   });
